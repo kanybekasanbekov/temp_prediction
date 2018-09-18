@@ -37,7 +37,6 @@ whereas	CNN's error is 0.58 and CNN-LSTM's error is 0.88 respectively.
 Surprisingly the most complex model performed worse than others.
 I think that the way how we built CNN-LSTM was a bit wrong and I can 
 achieve better performance if I change its architecture. 
-	
 
-
-
+You can access data by this link below:
+https://drive.google.com/open?id=1oFOG0jJqogtD4rfUMxCP5bi4e51hWh5Q
