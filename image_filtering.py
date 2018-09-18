@@ -430,11 +430,15 @@ outfileImage = "ArrayOfImages.npy"
 #imageDir = "Ankara_test/"
 #imageDir = "2017-03-March/"
 #imageDir = "Brazilia_test/"
-#imageDir = "Brazilia_train/"
+imageDir = "Brazilia_train/"
 #imageDir = "Daejon_test/"
-imageDir = "Daejon_train/"
+#imageDir = "Daejon_train/"
+#imageDir = "Ulsan_train/"
+#imageDir = "Ulsan_test/"
 
-#saveDir = "filtered_brazilia_train/"
+
+
+saveDir = "filtered_brazilia_train/"
 #saveDir = "filtered_brazilia_test/"
 #saveDir = "filtered_march/"
 #saveDir = "filtered_ankara_val/"
@@ -444,7 +448,9 @@ imageDir = "Daejon_train/"
 #saveDir = "filtered_images_test/"
 #saveDir = "filtered_images/"
 #saveDir = "filtered_daejon_test/"
-saveDir = "filtered_daejon_train/"
+#saveDir = "filtered_daejon_train/"
+#saveDir = "filtered_ulsan_train/"
+#saveDir = "filtered_ulsan_test/"
 
 image_list = []
 suffix = ""
@@ -454,19 +460,14 @@ list_array = []
 list_image = []
 np_list_image = []
 
-#for file in os.listdir(imageDir):
-#	image_list.append(os.path.join(imageDir, file))
 
 image_list = glob.glob(imageDir+"*.jpg")
 image_list.sort()
 
 for imagePath in image_list:
-	#qwerty +=1
 	array = []
 	#img_title = input("Please input image title: ")
 	#image_before_cropping = cv2.imread(img_title,-1)
-	#outfile = "_ArrayOfTemps.npz" 
-	#outfile = "_ArrayOfTemps.npy" 
 	
 	image_before_cropping = cv2.imread(imagePath)
 	split_slash = imagePath.split("/")
@@ -484,7 +485,6 @@ for imagePath in image_list:
 	rangex = 10
 	rangey = 10
 
-	#temp_array = np.ones((rangey, rangex),int)
 	temp_array = []
 	row = 0
 	column = 0
@@ -508,13 +508,9 @@ for imagePath in image_list:
 	gridx = 350//rangex
 	gridy = 250//rangey
 
-	#gridx = gridx + 1
-	#gridy = gridy + 1
-
 	for j in range(0, rangey):
 		for i in range(0, rangex):
 			array.append(image[j*gridy:(j+1)*gridy, i*gridx:(i+1)*gridx])
-			#array.append(image[i*gridx:(i+1)*gridx,j*gridy:(j+1)*gridy])
 
 	list = []
 	temp_list = []
@@ -523,7 +519,6 @@ for imagePath in image_list:
 
 	img_ave = count_average(image, threshold_1, threshold_2)
 
-	#print("It's starting to print from top left corner.\n")
 	for k in range(0, cell_num):
 		thr_cell = count_thresh(array[k])
 		th1 = [thr_cell[0]-10, thr_cell[1]-10, thr_cell[2]-10]
@@ -541,7 +536,6 @@ for imagePath in image_list:
 			mod1 = k%rangex
 			
 			if black_color == "A":
-				#prefix = "Filtered_Aproximate_"
 				suffix = "_filtered_approximate"	
 
 				if k == 0:
@@ -563,7 +557,6 @@ for imagePath in image_list:
 				else:
 					fill_black_with_color(array[k], array[k-rangex-1], array[k-rangex], array[k-rangex+1], array[k-1], array[k+1], array[k+rangex-1], array[k+rangex], array[k+rangex+1], threshold_1, threshold_2, img_ave)
 			else:
-				#prefix = "Filtered_Black_"
 				suffix = "_filtered_black"
 
 				make_black(array[k])
@@ -591,23 +584,13 @@ for imagePath in image_list:
 
 	#cv2.imshow('Filtered Image', image)
 
-	#img_title = saveDir+img_title+suffix+".npy"
-	#img_title = img_title+image_format
 	list_array.append(temp_array)
 	print(temp_array)
 	np_list_image.append(image)
 	
-	#np.save(img_title, image)
-	#cv2.imwrite(img_title, image)
-	
 	print("\n\n")
 	#cv2.waitKey(0)
 	#cv2.destroyAllWindows()
-
-#np.savez(saveDir+outfile, *[list_array[x] for x in range(len(list_array))], )
-#np.savez(outfile,temp_array)
-#outfile.close() 
-
 
 data_array_X = []
 data_array_Y = []
@@ -632,11 +615,6 @@ for k in range(len(np_list_image)-6):
 		dataX.append(np_list_image[l])
 
 	image_data.append(dataX)
-
-#np.save(filename, image_data)
-
-#np.savez(saveDir+outfileX, *[data_array_X[x] for x in range(len(data_array_X))], )
-#np.savez(saveDir+outfileY, *[data_array_Y[x] for x in range(len(data_array_Y))], )
 
 np.save(saveDir+outfileX, data_array_X)
 np.save(saveDir+outfileY, data_array_Y)
